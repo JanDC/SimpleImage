@@ -1,6 +1,6 @@
 {
-    "name": "claviska/simpleimage",
-    "description": "A PHP class that makes working with images as simple as possible.",
+    "name": "jandc/simple-image",
+    "description": "Simple image implementation with enhanched webp support",
     "license": "MIT",
     "require": {
         "abeautifulsite/simpleimage": "^3.3"
