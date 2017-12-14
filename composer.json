@@ -1,0 +1,19 @@
+{
+    "name": "claviska/simpleimage",
+    "description": "A PHP class that makes working with images as simple as possible.",
+    "license": "MIT",
+    "require": {
+        "abeautifulsite/simpleimage": "^3.3"
+    },
+    "authors": [
+        {
+            "name": "Jan Decavele",
+            "homepage": "https://jandc.io/"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "SimpleImage": "src/"
+        }
+    }
+}
