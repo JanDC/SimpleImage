@@ -12,8 +12,8 @@
         }
     ],
     "autoload": {
-        "psr-0": {
-            "SimpleImage": "src/"
+        "psr-4": {
+            "SimpleImage\\": "src/"
         }
     }
 }
