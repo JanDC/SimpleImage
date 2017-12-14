@@ -6,6 +6,8 @@ namespace SimpleImage;
 
 class SimpleImage extends \claviska\SimpleImage
 {
+    const TMPPATH = '/tmp/simpleimage/';
+
     /**
      * @param      $file
      * @param null $mimeType
@@ -18,7 +20,8 @@ class SimpleImage extends \claviska\SimpleImage
     public function toFile($file, $mimeType = null, $quality = 100)
     {
         if ($mimeType === 'image/webp') {
-            $pngPath = '/tmp/simpleimage/'.microtime(false).'.png';
+            $this->preparePath();
+            $pngPath = self::TMPPATH.time().'.png';
             $this->toFile($pngPath, 'image/png', $quality);
             $this->convertPNGToWebp($pngPath, $file, $quality, true);
 
@@ -36,7 +39,6 @@ class SimpleImage extends \claviska\SimpleImage
      */
     private function convertPNGToWebp($source, $destination, $quality, $strip_metadata)
     {
-
         $options = '-q '.$quality;
         $options .= ($strip_metadata ? ' -metadata none' : '-metadata all');
         // comma separated list of metadata to copy from the input to the output if present.
@@ -65,9 +67,16 @@ class SimpleImage extends \claviska\SimpleImage
         // $options .= ' -quiet';
         $options .= ' '.($source).' -o '.($destination).' 2>&1';
 
-        $cmd = __DIR__.'../bin/cwebp '.$options;
+        $cmd = __DIR__.'/../bin/cwebp '.$options;
 
         exec($cmd, $output, $return_var);
+    }
+
+    private function preparePath()
+    {
+        if (!file_exists(self::TMPPATH) || !is_dir(self::TMPPATH)) {
+            mkdir(self::TMPPATH);
+        }
     }
 
 }
