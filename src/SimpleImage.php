@@ -4,21 +4,9 @@
 namespace SimpleImage;
 
 
-use Exception;
-use Symfony\Component\Filesystem\Exception\FileNotFoundException;
-
-class  SimpleImage extends \claviska\SimpleImage
+class SimpleImage extends \claviska\SimpleImage
 {
     const TMPPATH = '/tmp/simpleimage/';
-
-    public function __construct($image = null)
-    {
-        try {
-            parent::__construct($image);
-        } catch (Exception $exception) {
-
-        }
-    }
 
     /**
      * @param      $file
@@ -27,7 +15,7 @@ class  SimpleImage extends \claviska\SimpleImage
      *
      * @return $this
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function toFile($file, $mimeType = null, $quality = 100)
     {
@@ -35,13 +23,14 @@ class  SimpleImage extends \claviska\SimpleImage
             $this->preparePath();
             $pngPath = self::TMPPATH.time().'.png';
             $this->toFile($pngPath, 'image/png', $quality);
-            $this->convertPNGToWebp($pngPath, $file, $quality, false);
+            $this->convertPNGToWebp($pngPath, $file, $quality, true);
 
             return $this;
         }
 
         return parent::toFile($file, $mimeType, $quality);
     }
+
 
     /**
      * @param $source
@@ -77,7 +66,7 @@ class  SimpleImage extends \claviska\SimpleImage
         //$options .= ' -low_memory';
 
         // $options .= ' -quiet';
-        $options .= ' \''.($source).'\' -o \''.($destination).'\' 2>&1';
+        $options .= ' '.($source).' -o '.escapeshellarg($destination).' 2>&1';
 
         $cmd = __DIR__.'/../bin/cwebp '.$options;
 
